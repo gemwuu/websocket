@@ -6,8 +6,7 @@
  * @description:
  **/
 
-module.exports = function() {
+module.exports = () => {
   let date = new Date()
-  let str = ''
   return date.getFullYear() + '年' + (date.getMonth()+1) + '月' + date.getDate() + '日'
 }
