@@ -1,12 +1,24 @@
 <!doctype html>
 <html>
 <head>
-    <title></title>
-    <link rel='stylesheet' href=''>
+    <title>Node Chat</title>
+    <link rel='stylesheet' href='../css/lib/reset.css'>
+    <link rel='stylesheet' href='../css/page/index.css'>
 </head>
 <body>
-
+    <div class="left">
+        {% include "widgets/personal_info.html" %}
+        {% include "widgets/contacts_list.html" %}
+    </div>
+    <div class="right">
+        {% include "widgets/chat_container.html" %}
+        {% include "widgets/input_container.html" %}
+    </div>
 </body>
+<script>
+  var ID = '{= id =}'
+</script>
 <script src="../js/lib/socket.io.js"></script>
+<script src="../js/lib/vue.js"></script>
 <script src="../js/index.js"></script>
 </html>

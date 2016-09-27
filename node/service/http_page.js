@@ -13,6 +13,7 @@ const renderer = require('./renderer')
 const co = require('co')
 const login = require('../util/login')
 const dt = require('../util/datetime')
+const uuid = require('uuid')
 
 
 // nunjucks settings
@@ -33,7 +34,9 @@ module.exports = {
   index: function *(next) {
     yield next
 
-    this.body = nj.render('page/index.html')
+    this.body = nj.render('page/index.html', {
+      id: uuid.v4()
+    })
   },
   test: function* (next) {
     yield next

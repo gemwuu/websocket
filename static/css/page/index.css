@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    width: 900px;
+    margin: 0 auto;
+}
+
+.left {
+    width: 200px;
+}
+
+.right {
+    flex: 1;
+}
+
+/* 个人信息 */
+.personal-container {
+    margin: 10px;
+}
+/* 联系人信息 */
+.contacts-list {
+    margin: 10px;
+}
+
+/* 聊天记录 */
+.msg-list {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+/* 消息输入框 */
+.input-container {
+    margin: 10px;
+}
+
+.input-container textarea {
+    width: calc(100% - 22px);
+    height: 60px;
+    resize: none;
+    padding: 10px;
+    border: 1px solid #eee;
+    font-size: 16px;
+    line-height: 20px;
+    color: #666;
+    border-radius: 4px;
+}
+
+.input-container textarea:focus {
+    outline: none;
+    border: 1px solid #999;
+}

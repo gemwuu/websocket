@@ -90,19 +90,30 @@ router.get('/test.html', handlers.test)
 app.io.use(function* (next) {
   // on connect
   console.log('11111')
-  this.emit('news', { a: 'b' })
-
   yield *next
   // on disconnect
   console.log('22222')
 })
 
-app.io.route('news', function *(next, test) {
-  console.log(test)
-  console.log('=======')
-  this.emit('news', { hello: 'world'} )
+app.io.route('new msg', function *(next, data) {
+  for (var client in app.io.engine.clients) {
+    if (client !== this.socket.id) {
+      this.broadcast.to(client).emit('notification', data)
+    } else {
+      this.emit('notification', data)
+    }
+  }
 })
 
+app.io.route('new user', function *(next, data) {
+  for (var client in app.io.engine.clients) {
+    if (client !== this.socket.id) {
+      this.broadcast.to(client).emit('new user', data)
+    } else {
+      this.emit('new user', data)
+    }
+  }
+})
 
 // start server
 app.listen(port, function() {
