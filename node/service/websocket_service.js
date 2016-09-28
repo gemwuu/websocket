@@ -7,5 +7,12 @@
  **/
 
 module.exports = {
-
+  removeClient: function(app, set, users) {
+    let clients = app.io.engine.clients
+    for (let client in clients) {
+      if (!set.has(client)) {
+        console.log(client)
+      }
+    }
+  }
 }

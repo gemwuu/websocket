@@ -1,5 +1,4 @@
 <!-- 个人信息 -->
-<ul id="personal-container" class="personal-container">
-    <li>id: {{ info.id }}</li>
-    <li>nickname: {{ info.nickname }}</li>
-</ul>
+<div id="personal-container" class="personal-container">
+    <div @click='changeNickname'>昵称: {{ info.nickname }}</div>
+</div>

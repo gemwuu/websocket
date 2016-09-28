@@ -1,7 +1,59 @@
 body {
-    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 3px;
+}
+
+/* 弹出框 */
+.prompt-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.prompt {
+    width: 600px;
+    margin: 200px auto 0 auto;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: white;
+    line-height: 30px;
+}
+
+.prompt-id {
+    margin-bottom: 10px;
+}
+
+.prompt input {
+    height: 26px;
+    width: calc(100% - 8px);
+    line-height: 30px;
+    font-size: 16px;
+    outline: none;
+    border-radius: 2px;
+    border: 1px solid #eee;
+    padding: 4px;
+    margin-bottom: 10px;
+}
+
+.prompt-button {
+    text-align: center;
+    width: 100px;
+    margin: 0 auto;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.content {
     width: 900px;
     margin: 0 auto;
+    display: flex;
 }
 
 .left {
@@ -16,8 +68,21 @@ body {
 .personal-container {
     margin: 10px;
 }
+
 /* 联系人信息 */
 .contacts-list {
+    margin: 10px;
+    border: 1px solid #eee;
+    height: 456px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.contacts-list li {
+    margin: 0 10px;
+}
+
+.contacts-title {
     margin: 10px;
 }
 

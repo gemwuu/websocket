@@ -33,9 +33,15 @@ let nj = nunjucks.configure(tplPath, {
 module.exports = {
   index: function *(next) {
     yield next
-
+    let id
+    if (this.isLogged) {
+      id = this.id
+    } else {
+      id = uuid.v4()
+      this.cookies.set('id', id)
+    }
     this.body = nj.render('page/index.html', {
-      id: uuid.v4()
+      id: id
     })
   },
   test: function* (next) {

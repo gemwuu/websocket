@@ -17,6 +17,8 @@ const login = require('./util/login')
 const websocket = require('./service/websocket_service')
 
 const port = config.port
+const userSet = new Set()
+const users = []
 
 // koa middleware
 app.use(compress({
@@ -48,27 +50,14 @@ app.use(function *(next) {
 
 // 验证是否登录中间件
 app.use(function *(next) {
-  let openid = this.cookies.get('openid')
-  let url = this.request.url
-  let userInfo, isLogged
-
-  if (openid) {
-    userInfo = yield login['checkLogin'](openid)
-  }
-
-  if (userInfo && userInfo.resultCode === 200) {
-    isLogged = true
+  let id = this.cookies.get('id')
+  if (id) {
     this.isLogged = true
-    this.openid = openid
-    this.userInfo = userInfo.result
+    this.id = id
   } else {
     this.isLogged = false
-    isLogged = false
-    this.openid = ''
-    this.userInfo = ''
   }
-  console.log('check whether the visitor is logged: %s', this.isLogged)
-  this.cookies.set('url', url)
+
   yield next
 })
 
@@ -89,13 +78,13 @@ router.get('/test.html', handlers.test)
 
 app.io.use(function* (next) {
   // on connect
-  console.log('11111')
-  yield *next
+  yield next
   // on disconnect
-  console.log('22222')
 })
 
 app.io.route('new msg', function *(next, data) {
+  // remove offline client
+  //TODO
   for (var client in app.io.engine.clients) {
     if (client !== this.socket.id) {
       this.broadcast.to(client).emit('notification', data)
@@ -106,11 +95,23 @@ app.io.route('new msg', function *(next, data) {
 })
 
 app.io.route('new user', function *(next, data) {
-  for (var client in app.io.engine.clients) {
+  // remove offline client
+  // TODO
+  if (!userSet.has(data.id)) {
+    userSet.add(data.id)
+    users.push(data)
+  } else {
+    for (let i = 0, l = users.length; i < l; ++i) {
+      if (users[i]['id'] === data.id) {
+        users[i]['nickname'] = data.nickname
+      }
+    }
+  }
+  for (let client in app.io.engine.clients) {
     if (client !== this.socket.id) {
-      this.broadcast.to(client).emit('new user', data)
+      this.broadcast.to(client).emit('new user', users)
     } else {
-      this.emit('new user', data)
+      this.emit('new user', users)
     }
   }
 })

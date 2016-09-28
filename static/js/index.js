@@ -6,26 +6,40 @@
  * @description:
  **/
 
-var socket = io('http://localhost:8000');
+var socket = io('/');
 
 socket.on('notification', function (data) {
-  console.log('notification')
-  console.log(data)
   MSG_LIST.msgs.push(data)
 });
 
 socket.on('new user', function(data) {
-  CONTACTS_LIST.contacts.push(data)
+  CONTACTS_LIST.contacts = data
 })
 
-var NICKNAME = window.prompt('id: ' + ID + '\n请输入昵称') || '没有昵称'
+
+var PROMPT_CONTAINER = new Vue({
+  el: '#prompt-container',
+  data: {
+    bShow: true,
+    nickname: ''
+  },
+  methods: {
+    dismiss: function() {
+      this.bShow = false
+      INIT_DATA.nickname = this.nickname
+      socket.emit('new user', INIT_DATA)
+    }
+  }
+})
 
 var PERSONAL_CONTAINER = new Vue({
   el: '#personal-container',
   data: {
-    info: {
-      id: ID,
-      nickname: NICKNAME
+    info: INIT_DATA
+  },
+  methods: {
+    changeNickname: function() {
+      PROMPT_CONTAINER.bShow = true
     }
   }
 })
@@ -33,9 +47,7 @@ var PERSONAL_CONTAINER = new Vue({
 var CONTACTS_LIST = new Vue({
   el: '#contacts-list',
   data: {
-    contacts: [
-      { id: ID, nickname: NICKNAME }
-    ]
+    contacts: []
   }
 })
 
@@ -55,11 +67,9 @@ var INPUT_CONTAINER = new Vue({
     emit: function() {
       if (this.msg !== '\n') {
         console.log('typed msg is: %s', this.msg)
-        socket.emit('new msg', {
-          id: ID,
-          nickname: NICKNAME,
-          msg: this.msg.trim()
-        })
+        var data = INIT_DATA
+        data.msg = this.msg.trim()
+        socket.emit('new msg', data)
         this.msg = ''
       } else {
       }

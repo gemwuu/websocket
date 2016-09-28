@@ -6,17 +6,24 @@
     <link rel='stylesheet' href='../css/page/index.css'>
 </head>
 <body>
-    <div class="left">
-        {% include "widgets/personal_info.html" %}
-        {% include "widgets/contacts_list.html" %}
+    <div id="prompt-container" class="prompt-container" v-show='bShow'>
+        {% include "widgets/prompt.html" %}
     </div>
-    <div class="right">
-        {% include "widgets/chat_container.html" %}
-        {% include "widgets/input_container.html" %}
+    <div class='content'>
+        <div class="left">
+            {% include "widgets/personal_info.html" %}
+            {% include "widgets/contacts_list.html" %}
+        </div>
+        <div class="right">
+            {% include "widgets/chat_container.html" %}
+            {% include "widgets/input_container.html" %}
+        </div>
     </div>
 </body>
 <script>
-  var ID = '{= id =}'
+  var INIT_DATA = {}
+  INIT_DATA.id = '{= id =}'
+  INIT_DATA.nickname = ''
 </script>
 <script src="../js/lib/socket.io.js"></script>
 <script src="../js/lib/vue.js"></script>
